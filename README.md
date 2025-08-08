@@ -1,16 +1,118 @@
-# Getting Started with GitHub Copilot
+# Backend Foundation Template (TypeScript + Fastify + Clean Architecture)
 
-<img src="https://octodex.github.com/images/Professortocat_v2.png" align="right" height="200px" />
+## Ringkasan
+Kerangka backend modular untuk akselerasi pengembangan layanan API yang scalable dan maintainable.
 
-Hey helena1994!
+## Fitur Awal
+- Struktur Clean Architecture (domain / application / infrastructure / interface layer)
+- Fastify bootstrap + global error handler
+- Validasi environment (zod)
+- Auth (rangka awal) – placeholder
+- Health & version endpoint
+- Prisma + PostgreSQL schema awal (users, roles, permissions, refresh_tokens)
+- Linting, formatting, commit lint
+- Testing (Jest) baseline
+- CI pipeline (lint, test, build, security audit)
+- Docker multi-stage + docker-compose (app + postgres)
 
-Mona here. I'm done preparing your exercise. Hope you enjoy! 💚
+## Platform & DApp Links
+| Komponen | URL (placeholder) |
+|---------|--------------------|
+| Platform (web utama) | https://platform.example.com |
+| DApp Frontend | https://app.example.com |
+| API Base | http://localhost:3000 |
 
-Remember, it's self-paced so feel free to take a break! ☕️
+Update file `docs/DAPP-PLATFORM-LINKS.md` dan variabel env bila URL final sudah tersedia.
 
-[![](https://img.shields.io/badge/Go%20to%20Exercise-%E2%86%92-1f883d?style=for-the-badge&logo=github&labelColor=197935)](https://github.com/helena1994/mcp-server-modular/issues/1)
+## Struktur Direktori
+```
+src/
+  app/
+    bootstrap/
+      server.ts
+    config/
+      env.ts
+    http/
+      controllers/
+        health.controller.ts
+      routes/
+        index.ts
+      middlewares/
+        error-handler.ts
+        request-context.ts
+    utils/
+      logger.ts
+  domain/
+    user/
+      user.entity.ts
+      user.types.ts
+    auth/
+      tokens.ts
+    role/
+      role.entity.ts
+    shared/
+      base.entity.ts
+      errors.ts
+  application/
+    use-cases/
+      user/
+        register-user.usecase.ts
+        login-user.usecase.ts
+    dto/
+      user.dto.ts
+    services/
+      hashing/
+        hashing.port.ts
+      token/
+        token.port.ts
+  infrastructure/
+    db/
+      prisma-client.ts
+    repositories/
+      user.repository.prisma.ts
+    security/
+      argon2-hashing.service.ts
+      jwt-token.service.ts
+    logging/
+      pino-logger.factory.ts
+    telemetry/
+      tracing.init.ts (placeholder)
+  interfaces/
+    repositories/
+      user.repository.port.ts
+    services/
+      hashing.service.port.ts
+      token.service.port.ts
+tests/
+  unit/
+  integration/
+prisma/
+  schema.prisma
+```
 
----
+## Environment
+Lihat `.env.example`.
 
-&copy; 2025 GitHub &bull; [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/code_of_conduct.md) &bull; [MIT License](https://gh.io/mit)
+## Jalankan Lokal
+```
+cp .env.example .env
+docker compose up -d db
+npm install
+npx prisma migrate dev
+npm run dev
+```
 
+## Skrip
+Lihat `package.json` bagian scripts.
+
+## Quality
+- ESLint + Prettier
+- Commitlint (Conventional Commits)
+- Jest (unit + integration)
+- Coverage target (nanti fase 2) 85% domain/application
+
+## Roadmap
+Lihat `docs/ROADMAP.md`.
+
+## Lisensi
+MIT.
